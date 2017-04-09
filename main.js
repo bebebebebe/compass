@@ -4,6 +4,7 @@ $(document).ready(function() {
   var MOUNTAIN_CENTER = new THREE.Vector3(0,0,-30);
 
   var camera, scene, renderer;
+  var cube;
 
   init();
   wire();
@@ -14,17 +15,18 @@ $(document).ready(function() {
       height: window.innerHeight || document.body.clientHeight
     };
 
-    camera = new THREE.PerspectiveCamera(75, size.width / size.height, 0.1, 10000);
+    camera = new THREE.PerspectiveCamera(75, size.width / size.height, 1, 100);
     scene = new THREE.Scene();
     renderer = new THREE.WebGLRenderer({antialias: true});
 
     renderer.setSize(size.width, size.height);
     document.body.appendChild(renderer.domElement);
 
+    camera.position.y = 0;
     camera.position.z = 0;
     camera.lookAt(MOUNTAIN_CENTER);
 
-    addCube(PURPLE, MOUNTAIN_CENTER);
+    cube = addCube(PURPLE, MOUNTAIN_CENTER);
     light();
     render();
   }
@@ -43,6 +45,7 @@ $(document).ready(function() {
     cube.position.z = vector.z;
 
     scene.add(cube);
+    return cube;
   }
 
   function light() {
@@ -65,8 +68,15 @@ $(document).ready(function() {
   function orientationH(e) {
     if (typeof e.alpha === 'undefined' || e.alpha === null) return;
 
-    var deg = e.alpha; // degrees West
-    cameraDirUpd(coordsDir(deg));
+    var alpha = e.alpha; // degrees West
+    var beta = e.beta; // degrees up (0: looking down, 90: looking fwd)
+    var gamma = e.gamma; // degrees tipped right (0: portrait, 90: landscape)
+
+    camera.rotation.y = radians(alpha);
+    camera.rotation.x = radians(beta - 90);
+    camera.rotation.z = - radians(gamma);
+    render();
+    //cameraDirUpd(coordsDir(deg));
   }
 
   function coordsDir(deg) {
@@ -82,5 +92,6 @@ $(document).ready(function() {
 
   window.camera = camera;
   window.render = render;
+  window.cube = cube;
 
 });
