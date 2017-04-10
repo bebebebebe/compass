@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   var PURPLE = 0x936693;
-  var MOUNTAIN_CENTER = new THREE.Vector3(0,0,-30);
+  var MOUNTAIN_CENTER = new THREE.Vector3(0,0,-300);
   var ORIGIN = new THREE.Vector3(0,0,0);
 
   var camera, scene, renderer;
@@ -16,7 +16,7 @@ $(document).ready(function() {
       height: window.innerHeight || document.body.clientHeight
     };
 
-    camera = new THREE.PerspectiveCamera(45, size.width / size.height, 1, 100);
+    camera = new THREE.PerspectiveCamera(45, size.width / size.height, 100, 1000);
     scene = new THREE.Scene();
     renderer = new THREE.WebGLRenderer({antialias: true});
 
