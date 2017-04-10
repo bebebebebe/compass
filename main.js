@@ -2,9 +2,10 @@ $(document).ready(function() {
 
   var PURPLE = 0x936693;
   var MOUNTAIN_CENTER = new THREE.Vector3(0,0,-30);
+  var ORIGIN = new THREE.Vector3(0,0,0);
 
   var camera, scene, renderer;
-  var cube;
+  var cube, line;
 
   init();
   wire();
@@ -15,7 +16,7 @@ $(document).ready(function() {
       height: window.innerHeight || document.body.clientHeight
     };
 
-    camera = new THREE.PerspectiveCamera(75, size.width / size.height, 1, 100);
+    camera = new THREE.PerspectiveCamera(45, size.width / size.height, 1, 100);
     scene = new THREE.Scene();
     renderer = new THREE.WebGLRenderer({antialias: true});
 
@@ -46,6 +47,17 @@ $(document).ready(function() {
 
     scene.add(cube);
     return cube;
+  }
+
+  function addLine() {
+    var material = new THREE.LineBasicMaterial({color: 0x0000ff});
+    var geometry = new THREE.Geometry();
+    geometry.vertices.push(new THREE.Vector3(0,-10,0));
+    geometry.vertices.push(MOUNTAIN_CENTER);
+
+    var line = new THREE.Line(geometry, material);
+    scene.add(line);
+    return line;
   }
 
   function light() {
@@ -93,5 +105,6 @@ $(document).ready(function() {
   window.camera = camera;
   window.render = render;
   window.cube = cube;
+  window.line = line;
 
 });
